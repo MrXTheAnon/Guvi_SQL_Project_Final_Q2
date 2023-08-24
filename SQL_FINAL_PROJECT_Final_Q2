@@ -1,6 +1,6 @@
 # Q1
 
-Download the excel sheet from [here](data/Sample - Superstore (1).xlsx)
+Download the excel sheet from [here](https://github.com/MrXTheAnon/Guvi_SQL_Project_Final_Q2/blob/7d63226b8e241086d489480a1c4779f9e7a6dd21/data/Sample%20-%20Superstore%20(1).xlsx).
 
 # Q2
 
@@ -38,7 +38,7 @@ CREATE TABLE people (
     `Region` TEXT(255)
 );
 
-# [Q3](data/images/superStore_Q3.png)
+# [Q3](https://github.com/MrXTheAnon/Guvi_SQL_Project_Final_Q2/blob/7d63226b8e241086d489480a1c4779f9e7a6dd21/data/images/superStore_Q3.png)
 
 CREATE TABLE combined_table AS
 SELECT o.*, p.Person, r.Returned
@@ -46,19 +46,19 @@ FROM orders o
 LEFT JOIN people p ON o.Region = p.Region
 LEFT JOIN returns r ON o.`Order ID` = r.`Order ID`;
 
-# [Q4](data/images/superStore_Q4.png)
+# [Q4](https://github.com/MrXTheAnon/Guvi_SQL_Project_Final_Q2/blob/7d63226b8e241086d489480a1c4779f9e7a6dd21/data/images/superStore_Q4.png)
 
 SELECT City, SUM(Sales) AS `Total Sales`, SUM(Profit) AS `Total Profit`
 FROM orders
 GROUP BY City;
 
-# [Q5](data/images/superStore_Q5.png)
+# [Q5](https://github.com/MrXTheAnon/Guvi_SQL_Project_Final_Q2/blob/7d63226b8e241086d489480a1c4779f9e7a6dd21/data/images/superStore_Q5.png)
 
 SELECT Segment, MAX(Sales) AS `Max Sales`, MAX(Discount) AS `Max Discount`, MAX(Profit) AS `Max Profit`
 FROM orders
 GROUP BY Segment;
 
-# [Q6](data/images/superStore_Q6.png)
+# [Q6](https://github.com/MrXTheAnon/Guvi_SQL_Project_Final_Q2/blob/7d63226b8e241086d489480a1c4779f9e7a6dd21/data/images/superStore_Q6.png)
 
 SELECT City, `Product Name`, Sales
 FROM (
