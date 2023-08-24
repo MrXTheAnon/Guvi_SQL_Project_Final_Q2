@@ -1,0 +1,135 @@
+# Q1
+
+Download the excel sheet from [here](data/Sample - Superstore (1).xlsx)
+
+# Q2
+
+CREATE TABLE orders (
+    `Row ID` BIGINT(20),
+    `Order ID` TEXT(255),
+    `Order Date` DATE,
+    `Ship Date` DATE,
+    `Ship Mode` TEXT(255),
+    `Customer ID` TEXT(255),
+    `Customer Name` TEXT(255),
+    `Segment` TEXT(255),
+    `Country` TEXT(255),
+    `City` TEXT(255),
+    `State` TEXT(255),
+    `Postal Code` TEXT(255),
+    `Region` TEXT(255),
+    `Product ID` TEXT(255),
+    `Category` TEXT(255),
+    `Sub-Category` TEXT(255),
+    `Product Name` TEXT(255),
+    `Sales` DOUBLE,
+    `Quantity` BIGINT(20),
+    `Discount` DOUBLE,
+    `Profit` DOUBLE
+);
+
+CREATE TABLE returns (
+    `Returned` TEXT(255),
+    `Order ID` TEXT(255)
+);
+
+CREATE TABLE people (
+    `Person` TEXT(255),
+    `Region` TEXT(255)
+);
+
+# [Q3](data/images/superStore_Q3.png)
+
+CREATE TABLE combined_table AS
+SELECT o.*, p.Person, r.Returned
+FROM orders o
+LEFT JOIN people p ON o.Region = p.Region
+LEFT JOIN returns r ON o.`Order ID` = r.`Order ID`;
+
+# [Q4](data/images/superStore_Q4.png)
+
+SELECT City, SUM(Sales) AS `Total Sales`, SUM(Profit) AS `Total Profit`
+FROM orders
+GROUP BY City;
+
+# [Q5](data/images/superStore_Q5.png)
+
+SELECT Segment, MAX(Sales) AS `Max Sales`, MAX(Discount) AS `Max Discount`, MAX(Profit) AS `Max Profit`
+FROM orders
+GROUP BY Segment;
+
+# [Q6](data/images/superStore_Q6.png)
+
+SELECT City, `Product Name`, Sales
+FROM (
+    SELECT City, `Product Name`, Sales,
+           ROW_NUMBER() OVER (PARTITION BY City ORDER BY Sales DESC) AS `Row Number`
+    FROM orders
+) ranked
+WHERE `Row Number` <= 3;
+
+# Q7
+
+DELIMITER //
+CREATE PROCEDURE AllTasks()
+BEGIN
+
+    CREATE TABLE orders (
+        `Row ID` BIGINT(20),
+        `Order ID` TEXT(255),
+        `Order Date` DATE,
+        `Ship Date` DATE,
+        `Ship Mode` TEXT(255),
+        `Customer ID` TEXT(255),
+        `Customer Name` TEXT(255),
+        `Segment` TEXT(255),
+        `Country` TEXT(255),
+        `City` TEXT(255),
+        `State` TEXT(255),
+        `Postal Code` TEXT(255),
+        `Region` TEXT(255),
+        `Product ID` TEXT(255),
+        `Category` TEXT(255),
+        `Sub-Category` TEXT(255),
+        `Product Name` TEXT(255),
+        `Sales` DOUBLE,
+        `Quantity` BIGINT(20),
+        `Discount` DOUBLE,
+        `Profit` DOUBLE
+    );
+
+    CREATE TABLE returns (
+        `Returned` TEXT(255),
+        `Order ID` TEXT(255)
+    );
+
+    CREATE TABLE people (
+        `Person` TEXT(255),
+        `Region` TEXT(255)
+    );
+
+    CREATE TABLE combined_table AS
+    SELECT o.*, p.Person, r.Returned
+    FROM orders o
+    LEFT JOIN people p ON o.Region = p.Region
+    LEFT JOIN returns r ON o.`Order ID` = r.`Order ID`;
+
+    SELECT City, SUM(Sales) AS `Total Sales`, SUM(Profit) AS `Total Profit`
+    FROM orders
+    GROUP BY City;
+
+    SELECT Segment, MAX(Sales) AS `Max Sales`, MAX(Discount) AS `Max Discount`, MAX(Profit) AS `Max Profit`
+    FROM orders
+    GROUP BY Segment;
+
+    SELECT City, `Product Name`, Sales
+    FROM (
+        SELECT City, `Product Name`, Sales,
+               ROW_NUMBER() OVER (PARTITION BY City ORDER BY Sales DESC) AS `Row Number`
+        FROM orders
+    ) ranked
+    WHERE `Row Number` <= 3;
+
+END //
+
+DELIMITER ;
